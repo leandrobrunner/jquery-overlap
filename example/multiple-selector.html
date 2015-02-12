@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>multiple-selector: Demo of jquery-overlap.</title>
+        <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+        <script src="../jquery.overlap.js"></script>
+        <style type="text/css">
+            section {
+                height: 300px;
+                width: 600px;
+                border: 1px solid #333;
+            }
+            
+            section div {
+                border: 1px solid #333;
+                margin: 4px;
+                width: 48px;
+                height: 48px;
+                float: left;
+            }
+            
+            section div.mark {
+                background: blue;
+            }
+            
+            div.selection {
+                border: 1px solid royalblue;
+                background: rgba(65, 105, 225, 0.2);
+                position: absolute;
+                z-index: 9;
+            }
+            
+            div.selection.hide {
+                display: none;
+            }
+        </style>
+        <script type="text/javascript">
+            /*
+            * Copyright (c), Leandro Brunner
+            * leandrobrunner@yahoo.com.ar
+            *
+            * Licensed under the MIT license:
+            * http://www.opensource.org/licenses/MIT
+            */
+            $(window).load(function() {
+                var SECTION_DIV = "section > div";
+                var $SELECTION = $("div.selection");
+                var $selected=$();
+                $(SECTION_DIV).on("mousedown", function(e) {
+                    if (e.which === 1) {
+                        if (!e.ctrlKey) {
+                            $(SECTION_DIV).removeClass("marked mark");
+                        }
+                        $(this).addClass("marked mark");
+                    }
+                });
+                $("body").on("mousedown", function(i) {
+                    if (i.which === 1 && !$(i.target).is(SECTION_DIV)) {
+                        if (!i.ctrlKey) {
+                            $(SECTION_DIV).removeClass("marked mark");
+                        }
+                        $SELECTION.css({
+                            "top": i.pageY,
+                            "left": i.pageX
+                        });
+                        $SELECTION.removeClass("hide");
+                        $(this).on("mousemove", function(f) {
+                                var rect = {
+                                    x: i.pageX > f.pageX ? f.pageX : i.pageX,
+                                    y: i.pageY > f.pageY ? f.pageY : i.pageY,
+                                    w: i.pageX > f.pageX ? i.pageX - f.pageX : f.pageX - i.pageX,
+                                    h: i.pageY > f.pageY ? i.pageY - f.pageY : f.pageY - i.pageY
+                                };
+                                $SELECTION.css({
+                                    "top": rect.y - 1,
+                                    "left": rect.x - 1,
+                                    "width": rect.w + 1,
+                                    "height": rect.h + 1
+                                });
+                                var $marked;
+                                var filterUnmark = function(index) {
+                                    if($(this).is(".marked") && f.ctrlKey) {
+                                            return(false);
+                                    } else {
+                                        return(true);
+                                    }
+                                }
+                                // ------------------------------------
+                                $selected=$(SECTION_DIV).overlap({
+                                    rect: rect,
+                                    mark: "mark",
+                                    filterUnmark: filterUnmark,
+                                    unmark: true
+                                });
+                                //-------------------------------------
+                        });
+                    }
+                    i.preventDefault();
+                }).on("mouseup", function(e) {
+                    if (this === e.target || $SELECTION[0] === e.target) {
+                        if (e.which === 1) {
+                            $(this).off("mousemove");
+                            $SELECTION.addClass("hide").removeAttr("style");
+                            $selected.addClass("marked");
+                            e.preventDefault();
+                        }
+                    }
+                });
+            });
+        </script>
+    <head>
+    <body>
+        <section>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </section>
+        <div class="selection hide"></div> 
+    <body>
+<html>
