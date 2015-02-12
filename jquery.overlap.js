@@ -17,7 +17,7 @@
             unmark: true,
             filterMark: function(index) {return true},
             filterUnmark: function(index) {return true},
-            callback: function($selects) {},
+            callback: function($elements) {},
             w: function(element) {return element.outerWidth(true)},
             h: function(element) {return element.outerHeight(true)},
             bring: true 
