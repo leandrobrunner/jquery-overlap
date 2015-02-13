@@ -41,6 +41,10 @@ var divs_superposing_other_div = $("div").overlap({
 });
 ```
 
+## Practical use
+
+Mutiple selector: [Demo online](http://rawgit.com/leandrobrunner/jquery-overlap/master/example/multiple-selector.html)
+
 ## License
 
 jquery-overlap is licensed under the MIT License (LICENSE).
