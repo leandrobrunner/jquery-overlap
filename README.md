@@ -12,9 +12,9 @@ $(selector).overlap({
     filterMark: function(index) {return true}, // Filter elements to mark ($.filter)
     filterUnmark: function(index) {return true}, // Filter element to unmark ($.filter)
     callback: function($elements) {}, // Function to execute at end.
-    w: function(element) {return element.outerWidth(true)}, // Function for get the width.
-    h: function(element) {return element.outerHeight(true)}, // Function for get the height.
-    bring: true // get the element selected.
+    w: function(element) {return element.outerWidth(true)}, // Function for get the width of the elements.
+    h: function(element) {return element.outerHeight(true)}, // Function for get the height of the elements.
+    bring: true // get the elements selected.
 });
 ```
 
