@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>jquery-overlap by leandrobrunner</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>jquery-overlap</h1>
+        <h2>A jQuery plugin for detection of overlaps and selections by superposition.</h2>
+        <a href="https://github.com/leandrobrunner/jquery-overlap" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="jquery-overlap" class="anchor" href="#jquery-overlap" aria-hidden="true"><span class="octicon octicon-link"></span></a>jquery-overlap</h1>
+
+<p>A jQuery plugin for detection of overlaps and selections by superposition.</p>
+
+<h2>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use</h2>
+
+<div class="highlight highlight-JavaScript"><pre>$(selector).overlap({
+    rect<span class="pl-k">:</span> {x<span class="pl-k">:</span><span class="pl-c1">0</span>, y<span class="pl-k">:</span><span class="pl-c1">0</span>, w<span class="pl-k">:</span><span class="pl-c1">0</span>, h<span class="pl-k">:</span><span class="pl-c1">0</span>}, <span class="pl-c">// Area to select the elements.</span>
+    element<span class="pl-k">:</span> <span class="pl-c1">false</span>, <span class="pl-c">// Element of where get automatically "rect". ($("selector") or "selector").</span>
+    mark<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>.class<span class="pl-pds">"</span></span>, <span class="pl-c">// Class to add at elements overlapped.</span>
+    unmark<span class="pl-k">:</span> <span class="pl-c1">true</span>, <span class="pl-c">// Unmark if not overlapped (in new executions)</span>
+    <span class="pl-en">filterMark</span>: <span class="pl-st">function</span>(<span class="pl-vpf">index</span>) {<span class="pl-k">return</span> <span class="pl-c1">true</span>}, <span class="pl-c">// Filter elements to mark ($.filter)</span>
+    <span class="pl-en">filterUnmark</span>: <span class="pl-st">function</span>(<span class="pl-vpf">index</span>) {<span class="pl-k">return</span> <span class="pl-c1">true</span>}, <span class="pl-c">// Filter element to unmark ($.filter)</span>
+    <span class="pl-en">callback</span>: <span class="pl-st">function</span>(<span class="pl-vpf">$elements</span>) {}, <span class="pl-c">// Function to execute at end.</span>
+    <span class="pl-en">w</span>: <span class="pl-st">function</span>(<span class="pl-vpf">$element</span>) {<span class="pl-k">return</span> $element.<span class="pl-sc">outerWidth</span>(<span class="pl-c1">true</span>)}, <span class="pl-c">// Function for get the width of the elements.</span>
+    <span class="pl-en">h</span>: <span class="pl-st">function</span>(<span class="pl-vpf">$element</span>) {<span class="pl-k">return</span> $element.<span class="pl-sc">outerHeight</span>(<span class="pl-c1">true</span>)}, <span class="pl-c">// Function for get the height of the elements.</span>
+    <span class="pl-en">position</span>: <span class="pl-st">function</span>(<span class="pl-vpf">$element</span>) {<span class="pl-k">return</span> $element.position()}, <span class="pl-c">// Function for get the position of the elements.</span>
+    bring<span class="pl-k">:</span> <span class="pl-c1">true</span> <span class="pl-c">// get the element selected.</span>
+});</pre></div>
+
+<h3>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h3>
+
+<div class="highlight highlight-Javascript"><pre><span class="pl-s">var</span> divs_in_the_area <span class="pl-k">=</span> $(<span class="pl-s1"><span class="pl-pds">"</span>div<span class="pl-pds">"</span></span>).overlap({
+    rect<span class="pl-k">:</span> {x<span class="pl-k">:</span> <span class="pl-c1">120</span>, y<span class="pl-k">:</span> <span class="pl-c1">100</span>, w<span class="pl-k">:</span> <span class="pl-c1">500</span>, h<span class="pl-k">:</span> <span class="pl-c1">300</span>}
+});</pre></div>
+
+<div class="highlight highlight-Javascript"><pre><span class="pl-s">var</span> divs_superposing_other_div <span class="pl-k">=</span> $(<span class="pl-s1"><span class="pl-pds">"</span>div<span class="pl-pds">"</span></span>).overlap({
+    element<span class="pl-k">:</span> $(<span class="pl-s1"><span class="pl-pds">"</span>div.other_div<span class="pl-pds">"</span></span>) <span class="pl-c">// If are multiple elements is selected the first.</span>
+});</pre></div>
+
+<div class="highlight highlight-Javascript"><pre><span class="pl-s">var</span> divs_superposing_other_div <span class="pl-k">=</span> $(<span class="pl-s1"><span class="pl-pds">"</span>div<span class="pl-pds">"</span></span>).overlap({
+    element<span class="pl-k">:</span> $(<span class="pl-s1"><span class="pl-pds">"</span>div.other_div<span class="pl-pds">"</span></span>), <span class="pl-c">// If are multiple elements is selected the first.</span>
+    <span class="pl-en">position</span>: <span class="pl-st">function</span>(<span class="pl-vpf">$element</span>) {<span class="pl-k">return</span> $element.offset()} <span class="pl-c">// Get the position with "$.offset".</span>
+});</pre></div>
+
+<h2>
+<a id="practical-use" class="anchor" href="#practical-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>Practical use</h2>
+
+<p>Mutiple selector: <a href="http://rawgit.com/leandrobrunner/jquery-overlap/master/example/multiple-selector.html">Demo online</a></p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>jquery-overlap is licensed under the MIT License (LICENSE).</p>
+
+<p>Copyright (c) 2015 <a href="mailto:leandrobrunner@yahoo.com.ar">Leandro Brunner</a></p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/leandrobrunner/jquery-overlap/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/leandrobrunner/jquery-overlap/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/leandrobrunner/jquery-overlap"></a> is maintained by <a href="https://github.com/leandrobrunner">leandrobrunner</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
