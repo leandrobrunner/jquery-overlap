@@ -2,6 +2,8 @@
 
 A jQuery plugin for detection of overlaps and selections by superposition.
 
+![](https://cloud.githubusercontent.com/assets/1664991/6198552/85272e94-b3e7-11e4-8e2d-ca097db8a2cd.gif)
+
 ## How to use
 
 ```JavaScript
