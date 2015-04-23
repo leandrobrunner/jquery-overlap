@@ -47,25 +47,41 @@
                 var SECTION_DIV = "section > div";
                 var $SELECTION = $("div.selection");
                 var $selected=$();
-                $(SECTION_DIV).on("mousedown", function(e) {
-                    if (e.which === 1) {
-                        if (!e.ctrlKey) {
-                            $(SECTION_DIV).removeClass("marked mark");
-                        }
-                        $(this).addClass("marked mark");
+                var point = [0, 0];
+                $(SECTION_DIV).on("mousedown touchstart", function(e) {
+                    if (e.which === 1 || e.type == "touchstart") {
+	                    if (!e.ctrlKey) {
+	                        $(SECTION_DIV).removeClass("marked mark");
+	                    }
+	                    $(this).addClass("marked mark");
                     }
                 });
-                $("body").on("mousedown", function(i) {
-                    if (i.which === 1 && !$(i.target).is(SECTION_DIV)) {
-                        if (!i.ctrlKey) {
+                $("body").on("mousedown touchstart", function(i) {
+                    if (i.type == "touchstart" || (i.which === 1 && !$(i.target).is(SECTION_DIV))) {
+                        if (!i.ctrlKey && !(i.type == "touchstart" && $(i.target).is(SECTION_DIV))) {
                             $(SECTION_DIV).removeClass("marked mark");
+                        } else {
+                        	console.log(i.target);
                         }
-                        $SELECTION.css({
-                            "top": i.pageY,
-                            "left": i.pageX
-                        });
-                        $SELECTION.removeClass("hide");
-                        $(this).on("mousemove", function(f) {
+                        if(i.type == "touchstart") {
+                			i.pageX = i.originalEvent.touches[0].pageX;
+                			i.pageY = i.originalEvent.touches[0].pageY;
+                		}
+                        if((point[0] != i.pageX && point[1] != i.pageY) || i.type == "mousedown") {
+                        	point[0] = i.pageX;
+                        	point[1] = i.pageY;
+	                        $SELECTION.css({
+	                            "top": i.pageY,
+	                            "left": i.pageX
+	                        });
+	                        $SELECTION.removeClass("hide");
+                    	}
+                        $(this).on("mousemove touchmove", function(f) {
+                        		
+                        		if(f.type == "touchmove") {
+                        			f.pageX = f.originalEvent.touches[0].pageX;
+                        			f.pageY = f.originalEvent.touches[0].pageY;
+                        		}
                                 var rect = {
                                     x: i.pageX > f.pageX ? f.pageX : i.pageX,
                                     y: i.pageY > f.pageY ? f.pageY : i.pageY,
@@ -87,7 +103,7 @@
                                     }
                                 }
                                 // ------------------------------------
-                                $selected=$(SECTION_DIV).overlap({
+                                $selected = $(SECTION_DIV).overlap({
                                     rect: rect,
                                     mark: "mark",
                                     filterUnmark: filterUnmark,
@@ -97,10 +113,10 @@
                         });
                     }
                     i.preventDefault();
-                }).on("mouseup", function(e) {
-                    if (this === e.target || $SELECTION[0] === e.target) {
-                        if (e.which === 1) {
-                            $(this).off("mousemove");
+                }).on("mouseup touchend touchcancel", function(e) {
+                    if (this === e.target || $SELECTION[0] === e.target || e.type != "mouseup") {
+                        if (e.which === 1 || e.type != "mouseup") {
+                            $(this).off("mousemove touchmove");
                             $SELECTION.addClass("hide").removeAttr("style");
                             $selected.addClass("marked");
                             e.preventDefault();
